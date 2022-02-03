@@ -76,12 +76,12 @@ class CharInfo extends Component{
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, comics} = char;
+    const {name, description, thumbnail, homepage, wiki, comics, objectFit} = char;
 
     return(
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name}/>
+                <img src={thumbnail} alt={name} style={{objectFit: `${objectFit}`}}/>
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
