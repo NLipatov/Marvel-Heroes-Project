@@ -68,7 +68,7 @@ class RandomChar extends Component {
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, objectFit} = char;
+    const {name, description, thumbnail, homepage, wiki} = char;
     
 
     return (

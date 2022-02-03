@@ -41,7 +41,8 @@ class MarvelService {
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
             id: char.id,
-            objectFit: OF
+            objectFit: OF,
+            comics: char.comics.items
         }
     }
 

@@ -8,6 +8,7 @@ class CharList extends Component {
 
     state = {
         characters: [],
+        loading: true
     }
 
     marvelService = new MarvelService();
@@ -18,7 +19,7 @@ class CharList extends Component {
     }
 
     updateCharacterList = (characters) => {
-        this.setState({characters});
+        this.setState({characters, loading: false});
     }
 
     render(){
@@ -29,7 +30,8 @@ class CharList extends Component {
                     {
                         characters.map((character)=>(
                             
-                            <li className="char__item" key={character.id}>
+                            <li className="char__item" key={character.id}
+                            onClick={()=> this.props.onCharSelected(character.id)}>
                                 <img src={character.thumbnail} alt={character.name} style={{objectFit: `${character.objectFit}`}}/>
                                 <div className="char__name">{character.name}</div>
                             </li>  
