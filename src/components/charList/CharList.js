@@ -1,14 +1,10 @@
 import './charList.scss';
-import abyss from '../../resources/img/abyss.jpg';
 import MarvelService from '../../services/MarvelService';
 import { Component } from 'react/cjs/react.production.min';
 
 
 
 class CharList extends Component {
-    constructor(props){
-        super(props);
-    }
 
     state = {
         characters: [],
@@ -32,8 +28,9 @@ class CharList extends Component {
                 <ul className="char__grid">
                     {
                         characters.map((character)=>(
-                            <li className="char__item">
-                                <img src={character.thumbnail} alt="abyss"/>
+                            
+                            <li className="char__item" key={character.id}>
+                                <img src={character.thumbnail} alt={character.name} style={{objectFit: `${character.objectFit}`}}/>
                                 <div className="char__name">{character.name}</div>
                             </li>  
                         ))

@@ -36,13 +36,14 @@ class RandomChar extends Component {
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        this.setState({loading: true})
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded, this.updateChar)
     }
 
     render(){
-        const {char, loading, objectFit} = this.state;
+        const {char, loading} = this.state;
 
         return (
             <div className="randomchar">
@@ -72,7 +73,7 @@ const View = ({char}) => {
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" style={{objectFit: `${objectFit}`}}/>
+            <img src={thumbnail} alt="Random character" className="randomchar__img"/>
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr" style={{height: "fit-content"}}>

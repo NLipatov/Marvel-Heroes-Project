@@ -25,6 +25,13 @@ class MarvelService {
     }
 
     _transformCharacter = (char) => {
+        let OF = '';
+        if(`${char.thumbnail.path}.${char.thumbnail.extension}`  === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"){
+            OF = 'contain';
+        }
+        else{
+            OF = 'cover';
+        }
 
 
         return {
@@ -33,6 +40,8 @@ class MarvelService {
             thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
+            id: char.id,
+            objectFit: OF
         }
     }
 
