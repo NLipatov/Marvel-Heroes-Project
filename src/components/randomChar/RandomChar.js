@@ -19,6 +19,10 @@ class RandomChar extends Component {
     marvelService = new MarvelService();
 
     onCharLoaded = (char) => {
+        if(char.description.length === 0){
+            char.description = "There is no description for this character"
+            
+        }
         this.setState({char});
     }
 
@@ -31,13 +35,14 @@ class RandomChar extends Component {
 
     render(){
         const {char: {name, description, thumbnail, homepage, wiki}} = this.state;
+        
         return (
             <div className="randomchar">
                 <div className="randomchar__block">
                     <img src={thumbnail} alt="Random character" className="randomchar__img"/>
                     <div className="randomchar__info">
                         <p className="randomchar__name">{name}</p>
-                        <p className="randomchar__descr">
+                        <p className="randomchar__descr" style={{height: "fit-content"}}>
                             {description}
                         </p>
                         <div className="randomchar__btns">
