@@ -77,6 +77,7 @@ class CharInfo extends Component{
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics, objectFit} = char;
+    const comicsComponent = (comics.length > 0) ? <Comics comics={comics}/> : null;
 
     return(
         <>
@@ -97,25 +98,29 @@ const View = ({char}) => {
             <div className="char__descr">
                 {description}
             </div>
+            {comicsComponent}
+        </>
+    )
+    
+}
+
+const Comics = ({comics}) => {
+    return(
+        <>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-
                 {
                     comics.slice(0, 10).map((item, i) => {
                         return(
-                            <li className="char__comics-item" 
-                            key={i}>
+                            <li className="char__comics-item" key={i}>
                                 {item.name}  
                             </li>
                         )
                     })
                 }
-
-
             </ul>
         </>
     )
-    
 }
 
 export default CharInfo;
