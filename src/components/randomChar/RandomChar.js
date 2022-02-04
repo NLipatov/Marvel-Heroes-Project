@@ -21,9 +21,6 @@ class RandomChar extends Component {
     marvelService = new MarvelService();
 
     onCharLoaded = (char) => {
-        if(char.description.length === 0){
-            char.description = "There is no description for this character"
-        }
         if(char.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"){
             char.objectFit = 'contain';
         }
