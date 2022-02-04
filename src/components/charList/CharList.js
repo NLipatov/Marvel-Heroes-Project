@@ -10,26 +10,54 @@ class CharList extends Component {
 
     state = {
         characters: [],
-        loading: true
+        loading: true,
+        newItemLoading: false,
+        offset: 210,
+        charEnded: false
     }
 
     marvelService = new MarvelService();
 
     componentDidMount(){
-        this.marvelService.getAllCharacters()
+        this.onRequest();
+    }
+
+    onRequest = (offset) => {
+        this.onCharListLoading();
+        this.marvelService.getAllCharacters(offset)
         .then(this.updateCharacterList)
     }
 
-    updateCharacterList = (characters) => {
-        this.setState({characters, loading: false});
+    onCharListLoading = ()=> {
+        this.setState({
+            newItemLoading: true
+        })
+    }
+
+    updateCharacterList = (newCharacters) => {
+        let ended = false;
+        if(newCharacters.length < 9){
+            ended = true;
+        }
+
+
+        this.setState(({characters, offset}) => (
+            {
+                characters: [...characters, ...newCharacters], 
+                loading: false, 
+                newItemLoading: false,
+                offset: offset + 9,
+                charEnded: ended
+            }
+            ));
     }
 
     render(){
-        const {characters, loading, error} = this.state;
+        const {characters, loading, error, newItemLoading, offset, charEnded} = this.state;
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? <View characters={characters} onCharSelected={this.props.onCharSelected}/> : null;
+        const content = !(loading || error) ? <View charEnded={charEnded} characters={characters} onCharSelected={this.props.onCharSelected} newItemLoading={newItemLoading} offset={offset} onRequest={this.onRequest}/> : null;
 
 
 
@@ -43,7 +71,7 @@ class CharList extends Component {
     }
 }
 
-const View = ({characters, onCharSelected}) =>{
+const View = ({characters, onCharSelected, offset, newItemLoading, onRequest, charEnded}) =>{
     return(
         <>
             <ul className="char__grid">
@@ -57,7 +85,11 @@ const View = ({characters, onCharSelected}) =>{
                     ))
                 }
             </ul>
-            <button className="button button__main button__long">
+            <button 
+                className="button button__main button__long"
+                disabled={newItemLoading}
+                style={{'display': charEnded ? 'none' : 'block'}}
+                onClick={()=> onRequest(offset)}>
                 <div className="inner">load more</div>
             </button>
         </>
