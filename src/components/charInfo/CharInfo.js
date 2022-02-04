@@ -101,7 +101,7 @@ const View = ({char}) => {
             <ul className="char__comics-list">
 
                 {
-                    comics.map((item, i) => {
+                    comics.slice(0, 10).map((item, i) => {
                         return(
                             <li className="char__comics-item" 
                             key={i}>
