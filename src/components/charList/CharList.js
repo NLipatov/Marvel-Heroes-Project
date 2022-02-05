@@ -3,6 +3,7 @@ import MarvelService from '../../services/MarvelService';
 import { Component } from 'react/cjs/react.production.min';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/spinner';
+import PropTypes from 'prop-types';
 
 
 
@@ -52,12 +53,34 @@ class CharList extends Component {
             ));
     }
 
+    itemsRefs = [];
+
+    setRef = (ref) => {
+        this.itemsRefs.push(ref);
+    }
+
+    focusOnItem = (id) => {
+        this.itemsRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemsRefs[id].classList.add('char__item_selected');
+        this.itemsRefs[id].focus();
+    }
+
+
+
     render(){
         const {characters, loading, error, newItemLoading, offset, charEnded} = this.state;
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? <View charEnded={charEnded} characters={characters} onCharSelected={this.props.onCharSelected} newItemLoading={newItemLoading} offset={offset} onRequest={this.onRequest}/> : null;
+        const content = !(loading || error) ? <View 
+                                                    charEnded={charEnded} characters={characters} 
+                                                    onCharSelected={this.props.onCharSelected} 
+                                                    newItemLoading={newItemLoading} 
+                                                    offset={offset} 
+                                                    onRequest={this.onRequest} 
+                                                    setRef={this.setRef}
+                                                    focusOnItem={this.focusOnItem}
+                                                    refTest={this.refTest}/> : null;
 
 
 
@@ -71,14 +94,26 @@ class CharList extends Component {
     }
 }
 
-const View = ({characters, onCharSelected, offset, newItemLoading, onRequest, charEnded}) =>{
+const View = ({characters, onCharSelected, offset, newItemLoading, onRequest, charEnded, setRef, focusOnItem}) =>{
     return(
         <>
             <ul className="char__grid">
                 {
-                    characters.map((character)=>(
-                        <li className="char__item" key={character.id}
-                            onClick={()=> onCharSelected(character.id)}>
+                    characters.map((character, i)=>(
+                        <li ref={setRef}
+                            tabIndex={0}
+                            className="char__item" key={character.id}
+                            onClick={()=> {
+                                onCharSelected(character.id);
+                                focusOnItem(i);
+                                }}
+                            onKeyPress={(e)=> {
+                                e.preventDefault();
+                                if(e.key === ' ' || e.key === 'Enter'){
+                                    onCharSelected(character.id);
+                                    focusOnItem(i);
+                                }
+                            }}>
                             <img src={character.thumbnail} alt={character.name} style={{objectFit: `${character.objectFit}`}}/>
                             <div className="char__name">{character.name}</div>
                         </li>  
@@ -94,6 +129,10 @@ const View = ({characters, onCharSelected, offset, newItemLoading, onRequest, ch
             </button>
         </>
     )
+}
+
+CharList.propTypes = {
+    onCharSelected: PropTypes.func.isRequired
 }
 
 export default CharList;
