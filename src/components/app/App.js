@@ -11,7 +11,7 @@ const App = () => {
     const [selectedChar, setChar] = useState(null);
 
     const onCharSelected = (id) => {
-        console.log(id)
+        console.log(`app got selected: ${id}`)
         setChar(id);
     }
 
