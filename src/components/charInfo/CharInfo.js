@@ -9,18 +9,16 @@ import PropTypes from 'prop-types';
 
 const CharInfo = (props) => {
 
-    const [charId, setCharId] = useState(props.charId);
     const [char, setChar] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [objectFit, setObjectFit] = useState('');
 
     const marvelService = new MarvelService();
 
 
     useEffect(() => {
         updateChar(props.charId);
-    }, [props])
+    }, [props.charId])
 
 
     const updateChar = (id)=>{
@@ -37,14 +35,15 @@ const CharInfo = (props) => {
         .catch(onError);
     }
 
+    const onCharLoading = () => {
+        setLoading(true);
+    }
 
     const onCharLoaded = (char) => {
         setChar(char);
         setLoading(false);
     }
-    const onCharLoading = () => {
-        setLoading(true);
-    }
+
     const onError = () => {
         setLoading(false);
         setError(true);
