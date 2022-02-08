@@ -1,31 +1,25 @@
-class MarvelService {
+import { useHttp } from "../hooks/http.hook";
+
+const useMarvelService = () => {
+    const {loading, request, error, clearError} = useHttp();
 
     //https://developer.marvel.com/docs#!/public/getCharacterIndividual_get_1
-    _apiBase =  'https://gateway.marvel.com:443/v1/public/';
-    _apiKey = 'apikey=57154446fbcdf91835c754d178644ecb';
-    _baseOffset = 210;
+    const _apiBase =  'https://gateway.marvel.com:443/v1/public/';
+    const _apiKey = 'apikey=57154446fbcdf91835c754d178644ecb';
+    const _baseOffset = 210;
 
-    getResourse = async (url) => {
-       let res = await fetch(url);
 
-        if(!res.ok){
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`)
-        }
-
-       return res.json();
-    } 
-
-    getAllCharacters = async(offset = this._baseOffset) => {
-       const res = await this.getResourse(`${this._apiBase}characters?limit=9&offset=${offset}&${this._apiKey}`);
-       return res.data.results.map(this._transformCharacter);
+    const getAllCharacters = async(offset = _baseOffset) => {
+       const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
+       return res.data.results.map(_transformCharacter);
     }
    
-    getCharacter = async(id) => {
-        const res = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
-        return this._transformCharacter(res.data.results[0]);
+    const getCharacter = async(id) => {
+        const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
+        return _transformCharacter(res.data.results[0]);
     }
 
-    _transformCharacter = (char) => {
+    const _transformCharacter = (char) => {
         let OF = '';
         if(`${char.thumbnail.path}.${char.thumbnail.extension}`  === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"){
             OF = 'contain';
@@ -47,6 +41,8 @@ class MarvelService {
         }
     }
 
+    return {loading, error, getAllCharacters, getCharacter, clearError}
+
 }
 
-export default MarvelService;
+export default useMarvelService;
