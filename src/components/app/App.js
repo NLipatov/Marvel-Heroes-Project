@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import AppHeader from "../appHeader/AppHeader";
 //Мы можем не указывать ниже файл index, потому что вебпак будет его искать в этой папке по умолчанию
-import {MainPage, ComicsPage} from '../pages';
+import {MainPage, ComicsPage, Page404} from '../pages';
 
 
 const App = () => {
@@ -9,12 +9,14 @@ const App = () => {
 
     return (
         <Router>
+            {/* <Route path="*" element={<NoMatch />} /> */}
             <div className="app">
                     <AppHeader/>
                     <main>
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
                             <Route path="/comics" element={<ComicsPage/>}/>
+                            <Route path="*" element={<Page404/>}/>
                         </Routes>
                     </main>
             </div>
