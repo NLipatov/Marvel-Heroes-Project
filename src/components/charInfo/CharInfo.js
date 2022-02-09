@@ -5,6 +5,7 @@ import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 
 const CharInfo = (props) => {
@@ -90,7 +91,9 @@ const Comics = ({comics}) => {
                     comics.slice(0, 10).map((item, i) => {
                         return(
                             <li className="char__comics-item" key={i}>
-                                {item.name}  
+                                <Link to={`/comics/${((comics[0].resourceURI).split("/")).pop()}`}>
+                                    {item.name} 
+                                </Link>
                             </li>
                         )
                     })
