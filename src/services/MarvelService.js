@@ -9,7 +9,7 @@ const useMarvelService = () => {
     const _baseOffset = 210;
 
     const getEightComics = async(offset=0) => {
-        const res = await request(`${_apiBase}comics?format=comic&formatType=comic&noVariants=true&limit=8&offset=${offset}&${_apiKey}`);
+        const res = await request(`${_apiBase}comics?format=comic&formatType=comic&noVariants=true&hasDigitalIssue=true&limit=8&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformComics);
     }
 
