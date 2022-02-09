@@ -10,14 +10,20 @@ const Page404 = () => {
                 Well, we can't show you this page. U r not cool enough
                 </h3>
 
-            <button 
-                className="button button__main button__long">
-                <div className="inner">
+            <div style={{"marginLeft": "auto", "marginRight": "auto", "width": "fit-content"}}>
                 <Link to="/">
-                        Back to main page
+                    <button 
+                        className="button button__main button__long">
+                        <div className="inner">
+                        <p to="/">
+                                Back to main page
+                        </p>
+                        </div>
+                    </button>
                 </Link>
-                </div>
-            </button>
+            </div>
+
+
 
         </div>
     )
