@@ -9,14 +9,12 @@ const App = () => {
 
     return (
         <Router>
-            {/* <Route path="*" element={<NoMatch />} /> */}
             <div className="app">
                     <AppHeader/>
                     <main>
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
-                            <Route path="/comics" element={<ComicsPage/>}/>
-                            <Route path="/comics/:id" element={<SingleComicPage/>}/>
+                            <Route path="/comics/*" element={<ComicsPage/>}/>
                             <Route path="*" element={<Page404/>}/>
                         </Routes>
                     </main>

@@ -1,9 +1,11 @@
 import './comicsList.scss';
 import useMarvelService from '../../services/MarvelService';
 import {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const ComicsList = () => {
+    const history = useNavigate();
+    console.log(history);
 
     const [comicsList, setComicsList] = useState([]);
     const [offset, setOffset] = useState(0);
@@ -51,7 +53,6 @@ const ComicsList = () => {
     const items = renderItems(comicsList);
 
     return (
-        
         <div 
             className="comics__list"
             onClick={() => onRequest(offset)}>
