@@ -6,16 +6,13 @@ import {Route, Routes} from 'react-router-dom';
 
 const ComicsPage = () => {
     return(
-
         <>
             <AppBanner/>
             <Routes>
                 <Route path="/" element={<ComicsList/>}/>
                 <Route path=":id" element={<SingleComicPage/>}/>
-        </Routes>
+            </Routes>
         </>
-
-
     )
 }
 

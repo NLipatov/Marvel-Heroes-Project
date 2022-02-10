@@ -1,5 +1,5 @@
 import './singleComicPage.scss';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/spinner';
@@ -11,8 +11,6 @@ const SingleComicPage = () => {
     const {loading, error, getComic, clearError} = useMarvelService();
 
     useEffect(() => {
-        console.log(id);
-        
         updateComic();
     }, [])
 
