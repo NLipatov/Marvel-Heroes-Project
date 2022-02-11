@@ -1,10 +1,11 @@
 import {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-
+import {Transition} from 'react-transition-group';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
+
 
 const CharList = (props) => {
 
@@ -12,6 +13,7 @@ const CharList = (props) => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
+    const [showItems, setShowItems] = useState(false);
 
 
     
@@ -49,7 +51,7 @@ const CharList = (props) => {
         itemRefs.current[id].focus();
     }
 
-    function renderItems(arr) {
+    const renderItems = (arr, show) => {
         const items =  arr.map((item, i) => {
             let imgStyle = {'objectFit' : 'cover'};
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
@@ -78,14 +80,38 @@ const CharList = (props) => {
                 </li>
             )
         });
+
+        const duration = 300;
+
+        const defaultStyle = {
+        transition: `opacity ${duration}ms ease-in-out`,
+        opacity: 0,
+        }
+    
+        const transitionStyles = {
+        entering: { opacity: 1 },
+        entered:  { opacity: 1 },
+        exiting:  { opacity: 0 },
+        exited:  { opacity: 0 },
+        };
+
         return (
-            <ul className="char__grid">
-                {items}
-            </ul>
+            <Transition in={show} timeout={duration}>
+                {state => (
+                    <ul className="char__grid" style={
+                        {
+                            ...defaultStyle,
+                            ...transitionStyles[state]
+                        }
+                    }>
+                        {items}
+                    </ul>
+                )}
+            </Transition>
         )
     }
     
-    const items = renderItems(charList);
+    const items = renderItems(charList, (charList.length > 0));
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading && !newItemLoading ? <Spinner/> : null;

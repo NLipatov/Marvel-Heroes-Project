@@ -59,8 +59,8 @@ const RandomChar =() => {
 }
 
 const View = (props) => {
-    console.log(`received: ${props.show}`)
     const {char} = props;
+
     const duration = 300;
 
     const defaultStyle = {
