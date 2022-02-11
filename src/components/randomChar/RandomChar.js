@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import {Transition} from 'react-transition-group';
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/spinner';
-import { Transition } from 'react-transition-group';
 
 
 const RandomChar =() => {
