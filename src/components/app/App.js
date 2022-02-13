@@ -12,9 +12,6 @@ const ComicsPage = lazy(() => import("../pages/ComicsPage"));
 // 661 KB
 
 const App = () => {
-
-    
-
     return (
         <Router>
             <div className="app">

@@ -5,6 +5,7 @@ import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
+import { FormControl, InputGroup } from 'react-bootstrap';
 
 
 const CharList = (props) => {
@@ -14,10 +15,12 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
     const [showItems, setShowItems] = useState(false);
+    const [searchInput, setSearchInput] = useState('');
+    const [loadMoreButton, setLoadMoreButton] = useState(false);
 
 
     
-    const {loading, error, getAllCharacters, clearError} = useMarvelService();
+    const {loading, error, getAllCharacters, clearError, getCharacterListByName} = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
@@ -41,12 +44,29 @@ const CharList = (props) => {
         setNewItemLoading(newItemLoading => false);
         setOffset(offset => offset + 9);
         setCharEnded(charEnded => ended);
+        setLoadMoreButton(true);
+    }
+
+    const searchForCharacters = async() => {
+        if (searchInput.length === 0){
+            setCharList([]);
+            setOffset(0);
+            onRequest(offset, true);
+            return;
+        }
+        setLoadMoreButton(false);
+        setCharList(await getCharacterListByName(searchInput))
     }
 
     const itemRefs = useRef([]);
 
     const focusOnItem = (id) => {
-        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
+        console.log(itemRefs.current)
+        itemRefs.current.forEach(item =>{
+            if(item != null){
+                item.classList.remove('char__item_selected')
+            }
+        }) 
         itemRefs.current[id].classList.add('char__item_selected');
         itemRefs.current[id].focus();
     }
@@ -98,14 +118,38 @@ const CharList = (props) => {
         return (
             <Transition in={show} timeout={duration}>
                 {state => (
-                    <ul className="char__grid" style={
-                        {
-                            ...defaultStyle,
-                            ...transitionStyles[state]
-                        }
-                    }>
-                        {items}
-                    </ul>
+                    <>
+                    <div style={
+                            {
+                                ...defaultStyle,
+                                ...transitionStyles[state]
+                            }
+                        }>
+                            <div style={{padding: '25px', marginBottom: '25px', boxShadow: '5px 5px 20px rgb(0 0 0 / 25%)', display: 'flex', flexDirection: 'column'}}>
+                                <h2 style={{marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>Search for characters</h2>
+                                <div style={{alignItems: 'center', display: 'flex'}}>
+                                    <input style={{ marginRight: '10px', width: '-webkit-fill-available', height: '30px', fontSize: '18pt', fontWeight: 'bold'}}
+                                    onChange={(e)=>{setSearchInput(e.target.value)}}
+                                    value={searchInput}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter'){
+                                            searchForCharacters();
+                                        }
+                                    }}/>
+                                    <button 
+                                    className="button button__main"
+                                    onClick={searchForCharacters}>
+                                        <div className="inner">Search</div>
+                                    </button>
+                                </div>
+                            </div>
+                            <ul className="char__grid">
+                                {items}
+                            </ul>
+                    </div>
+
+                    </>
+
                 )}
             </Transition>
         )
@@ -118,16 +162,20 @@ const CharList = (props) => {
 
     return (
         <div className="char__list">
+            
             {errorMessage}
             {spinner}
             {items}
-            <button 
-                className="button button__main button__long"
-                disabled={newItemLoading}
-                style={{'display': charEnded ? 'none' : 'block'}}
-                onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
-            </button>
+            {loadMoreButton ? 
+                <button 
+                    className="button button__main button__long"
+                    disabled={newItemLoading}
+                    style={{'display': charEnded ? 'none' : 'block'}}
+                    onClick={() => onRequest(offset)}>
+                    <div className="inner">load more</div>
+                </button>
+                :
+                null}
         </div>
     )
 }
