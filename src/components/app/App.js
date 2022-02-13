@@ -8,6 +8,7 @@ import Spinner from '../spinner/spinner';
 const Page404 = lazy(()=> import("../pages/404"));
 const MainPage = lazy(() => import("../pages/MainPage"));
 const ComicsPage = lazy(() => import("../pages/ComicsPage"));
+const CharacterPage = lazy(() => import("../pages/CharacterPage"))
 
 // 661 KB
 
@@ -21,6 +22,7 @@ const App = () => {
                             <Routes>
                                 <Route path="/" element={<MainPage/>}/>
                                 <Route path="/comics/*" element={<ComicsPage/>}/>
+                                <Route path="/character/*" element={<CharacterPage/>}/>
                                 <Route path="*" element={<Page404/>}/>
                             </Routes>
                         </Suspense>

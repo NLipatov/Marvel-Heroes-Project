@@ -4,6 +4,7 @@ import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/spinner';
+import {Link} from 'react-router-dom';
 
 
 const RandomChar =() => {
@@ -91,12 +92,12 @@ const View = (props) => {
                             {char.description}
                         </p>
                         <div className="randomchar__btns">
-                            <a href={char.homepage} className="button button__main">
-                                <div className="inner">homepage</div>
-                            </a>
-                            <a href={char.wiki} className="button button__secondary">
-                                <div className="inner">Wiki</div>
-                            </a>
+                            <Link to={`${char.homepage}`} className="button button__main">
+                                <div className="inner">Marvel Page</div>
+                            </Link>
+                            <Link to={`${char.wiki}`} className="button button__secondary">
+                                <div className="inner">Marvel Wiki</div>
+                            </Link>
                         </div>
                     </div>
                 </div>

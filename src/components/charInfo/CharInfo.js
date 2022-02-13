@@ -54,9 +54,11 @@ const CharInfo = (props) => {
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, comics, objectFit} = char;
+    const {name, description, thumbnail, homepage, wiki, comics, objectFit, id} = char;
     const comicsComponent = (comics.length > 0) ? <Comics comics={comics}/> : null;
 
+
+    console.log('id is ' + id)
     return(
         <>
             <div className="char__basics">
@@ -64,12 +66,15 @@ const View = ({char}) => {
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
-                        <a href={homepage} className="button button__main">
-                            <div className="inner">homepage</div>
-                        </a>
-                        <a href={wiki} className="button button__secondary">
-                            <div className="inner">Wiki</div>
-                        </a>
+                        <Link to={`/character/${id}`} className="button button__main">
+                            <div className="inner">Character Page</div>
+                        </Link>
+                        <Link to={wiki} className="button button__secondary">
+                            <div className="inner">Marvel Wiki</div>
+                        </Link>
+                        <Link to={homepage} className="button button__secondary">
+                            <div className="inner">Marvel Page</div>
+                        </Link>
                     </div>
                 </div>
             </div>
