@@ -58,7 +58,6 @@ const View = ({char}) => {
     const comicsComponent = (comics.length > 0) ? <Comics comics={comics}/> : null;
 
 
-    console.log('id is ' + id)
     return(
         <>
             <div className="char__basics">

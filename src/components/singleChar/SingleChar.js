@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import useMarvelService from '../../services/MarvelService';
 import { useEffect, useState } from 'react';
 import '../pages/singleComicPage.scss';
@@ -34,7 +34,6 @@ const SingleChar = () => {
 
     const renderCharInfo = (character) => {
         if(character != null){
-            console.log(character);
             return(
                 <div className="single-comic">
                     <img src={character.thumbnail} alt={character.name} className="single-comic__img" style={{objectFit: `${character.objectFit}`}}/>
@@ -42,7 +41,7 @@ const SingleChar = () => {
                         <h2 className="single-comic__name">{character.name}</h2>
                         <p className="single-comic__descr">{character.description}</p>
                     </div>
-                    {/* <Link to="/comics" className="single-comic__back">Back to all</Link> */}
+                    <Link to="/" className="single-comic__back">Back to all</Link>
                 </div>
             )
         }
