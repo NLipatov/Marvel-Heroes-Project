@@ -2,6 +2,7 @@ import {useParams, Link} from 'react-router-dom';
 import useMarvelService from '../../services/MarvelService';
 import { useEffect, useState } from 'react';
 import '../pages/singleComicPage.scss';
+import {Helmet} from 'react-helmet';
 
 
 const SingleChar = () => {
@@ -36,6 +37,13 @@ const SingleChar = () => {
         if(character != null){
             return(
                 <div className="single-comic">
+                    <Helmet>
+                        <meta
+                            name="description"
+                            content={`${character.name} character page`}
+                            />
+                        <title>{`${character.name} page`}</title>
+                    </Helmet>
                     <img src={character.thumbnail} alt={character.name} className="single-comic__img" style={{objectFit: `${character.objectFit}`}}/>
                     <div className="single-comic__info">
                         <h2 className="single-comic__name">{character.name}</h2>
